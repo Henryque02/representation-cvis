@@ -49,7 +49,7 @@ inicializada a venv, só executar os notebooks :)
 
 ## to-do – roteiro da atividade (por partes)
 
-### Parte 1 – Representação 
+### Parte 1 – Representação
 
 - [x] Preparar imagem base (≥ 1280×960, 8–20 objetos bem separados sobre fundo uniforme)
 - [x] Converter para escala de cinza e aplicar **limiar global fixo** (baseado no histograma)
@@ -62,7 +62,7 @@ inicializada a venv, só executar os notebooks :)
 - [x] Comparar rotulação com **conectividade-4 vs. conectividade-8** (nº de blobs, área média, tempo)
 - [x] Discutir qual binarização produziu resultados mais fiéis à contagem real
 
-### Parte 2 – Descrição 
+### Parte 2 – Descrição
 
 - [x] Extrair features de cada blob e armazenar em um **DataFrame** (pandas):
   - área, centro de massa, bounding box, eixos da elipse, orientação, perímetro, circularidade, solidez
@@ -71,11 +71,10 @@ inicializada a venv, só executar os notebooks :)
 - [x] Gerar **scatter plot** de Área × Circularidade colorido por classe
 - [x] Validar manualmente 4–5 objetos (medir área e perímetro com editor de imagem)
 - [x] Apresentar erro percentual em tabela e discutir fontes de discrepância
-- [x] *(opcional)* Comparar blobs com Hu Moments (`cv2.matchShapes`)
-- [x] *(opcional)* Plotar assinaturas radiais de contorno de dois objetos
-- [ ] *(opcional)* Filtrar blobs que tocam a borda ou abaixo de área mínima
+- [x] _(opcional)_ Comparar blobs com Hu Moments (`cv2.matchShapes`)
+- [x] _(opcional)_ Plotar assinaturas radiais de contorno de dois objetos
 
-### Parte 3 – Introdução à Segmentação com DL 
+### Parte 3 – Introdução à Segmentação com DL
 
 - [x] Escolher imagem realista com classes comuns (cena com gatos, sofá e controles — COCO val2017)
 - [x] Executar **segmentação semântica** com modelo pré-treinado (`DeepLabV3-ResNet50` via torchvision, Pascal VOC)
@@ -90,7 +89,6 @@ inicializada a venv, só executar os notebooks :)
 - [x] `Representacao.ipynb`: código comentado, análise quantitativa, tabela comparativa, tempo de execução
 - [x] `Descricao.ipynb`: DataFrame com features, scatter plot, tabela de validação, imagens anotadas
 - [x] `Introducao_Segmentacao_DL.ipynb`: código simples, imagens de entrada/saída, explicação conceitual
-
 
 ## como colaborar?
 
