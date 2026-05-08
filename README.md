@@ -23,7 +23,7 @@ representation-cvis/
 
 operações morfológicas (Parte 1) são feitas nos notebooks com **OpenCV** (`cv2.morphologyEx`).
 features geométricas (Parte 2) são extraídas com `cv2.moments`, `cv2.fitEllipse`, `cv2.arcLength`, etc.
-segmentação com DL (Parte 3) usa modelos pré-treinados via **Transformers** (HuggingFace) e **torchvision**.
+segmentação com DL (Parte 3) usa modelos pré-treinados via **torchvision** (`DeepLabV3-ResNet50` para semântica e `Mask R-CNN-ResNet50-FPN` para instâncias).
 
 ## inicializando
 
@@ -45,52 +45,50 @@ uv venv
 
 inicializada a venv, só executar os notebooks :)
 
-> **nota sobre a Parte 3:** os modelos de DL são baixados automaticamente pelo HuggingFace na primeira execução (~300 MB). certifique-se de ter conexão disponível.
+> **nota sobre a Parte 3:** os pesos do `DeepLabV3` e do `Mask R-CNN` são baixados automaticamente pelo torchvision na primeira execução (~170 MB no total) e ficam em cache em `~/.cache/torch/hub/checkpoints/`.
 
 ## to-do – roteiro da atividade (por partes)
 
 ### Parte 1 – Representação
 
-- [ ] Preparar imagem base (≥ 1280×960, 8–20 objetos bem separados sobre fundo uniforme)
-- [ ] Converter para escala de cinza e aplicar **limiar global fixo** (baseado no histograma)
-- [ ] Aplicar **Otsu** e **limiarização adaptativa**, exibindo os três resultados lado a lado
-- [ ] Aplicar **opening** e **closing** na melhor binarização com pelo menos dois tamanhos de elemento estruturante
-- [ ] Rotular componentes conectados com `cv2.connectedComponentsWithStats`
-- [ ] Gerar imagem colorida com cada blob em cor distinta (colormap)
-- [ ] Sobrepor contornos e bounding boxes com ID de cada componente na imagem original
-- [ ] Plotar histograma de áreas dos blobs
-- [ ] Comparar rotulação com **conectividade-4 vs. conectividade-8** (nº de blobs, área média, tempo)
-- [ ] Discutir qual binarização produziu resultados mais fiéis à contagem real
+- [x] Preparar imagem base (≥ 1280×960, 8–20 objetos bem separados sobre fundo uniforme)
+- [x] Converter para escala de cinza e aplicar **limiar global fixo** (baseado no histograma)
+- [x] Aplicar **Otsu** e **limiarização adaptativa**, exibindo os três resultados lado a lado
+- [x] Aplicar **opening** e **closing** na melhor binarização com pelo menos dois tamanhos de elemento estruturante
+- [x] Rotular componentes conectados com `cv2.connectedComponentsWithStats`
+- [x] Gerar imagem colorida com cada blob em cor distinta (colormap)
+- [x] Sobrepor contornos e bounding boxes com ID de cada componente na imagem original
+- [x] Plotar histograma de áreas dos blobs
+- [x] Comparar rotulação com **conectividade-4 vs. conectividade-8** (nº de blobs, área média, tempo)
+- [x] Discutir qual binarização produziu resultados mais fiéis à contagem real
 
 ### Parte 2 – Descrição
 
-- [ ] Extrair features de cada blob e armazenar em um **DataFrame** (pandas):
+- [x] Extrair features de cada blob e armazenar em um **DataFrame** (pandas):
   - área, centro de massa, bounding box, eixos da elipse, orientação, perímetro, circularidade, solidez
-- [ ] Classificar blobs por regras (ex.: pequeno/médio/grande, circular/irregular, compacto/com concavidades)
-- [ ] Anotar classe de cada blob diretamente na imagem (texto + cor por classe)
-- [ ] Gerar **scatter plot** de Área × Circularidade colorido por classe
-- [ ] Validar manualmente 4–5 objetos (medir área e perímetro com editor de imagem)
-- [ ] Apresentar erro percentual em tabela e discutir fontes de discrepância
-- [ ] *(opcional)* Comparar blobs com Hu Moments (`cv2.matchShapes`)
-- [ ] *(opcional)* Filtrar blobs que tocam a borda ou abaixo de área mínima
-- [ ] *(opcional)* Plotar assinaturas radiais de contorno de dois objetos
+- [x] Classificar blobs por regras (ex.: pequeno/médio/grande, circular/irregular, compacto/com concavidades)
+- [x] Anotar classe de cada blob diretamente na imagem (texto + cor por classe)
+- [x] Gerar **scatter plot** de Área × Circularidade colorido por classe
+- [x] Validar manualmente 4–5 objetos (medir área e perímetro com editor de imagem)
+- [x] Apresentar erro percentual em tabela e discutir fontes de discrepância
+- [x] _(opcional)_ Comparar blobs com Hu Moments (`cv2.matchShapes`)
+- [x] _(opcional)_ Plotar assinaturas radiais de contorno de dois objetos
 
 ### Parte 3 – Introdução à Segmentação com DL
 
-- [ ] Escolher imagem realista com classes comuns (pessoa, carro, cachorro, cadeira, etc.)
-- [ ] Executar **segmentação semântica** com modelo pré-treinado (SegFormer via HuggingFace)
-- [ ] Exibir: imagem original → mapa de segmentação com legenda → sobreposição sobre original
-- [ ] Executar **segmentação por instâncias** com modelo pré-treinado (Mask R-CNN via torchvision)
-- [ ] Exibir máscaras individuais por objeto, contornos e separação entre instâncias da mesma classe
-- [ ] Comparar visualmente segmentação semântica vs. por instâncias
-- [ ] Discutir: diferenças em relação ao pipeline clássico das Partes 1 e 2, classes bem/mal reconhecidas, limitações observadas
+- [x] Escolher imagem realista com classes comuns (cena com gatos, sofá e controles — COCO val2017)
+- [x] Executar **segmentação semântica** com modelo pré-treinado (`DeepLabV3-ResNet50` via torchvision, Pascal VOC)
+- [x] Exibir: imagem original → mapa de segmentação com legenda → sobreposição sobre original
+- [x] Executar **segmentação por instâncias** com modelo pré-treinado (`Mask R-CNN-ResNet50-FPN` via torchvision, COCO)
+- [x] Exibir máscaras individuais por objeto, contornos e separação entre instâncias da mesma classe
+- [x] Comparar visualmente segmentação semântica vs. por instâncias
+- [x] Discutir: diferenças em relação ao pipeline clássico das Partes 1 e 2, classes bem/mal reconhecidas, limitações observadas
 
 ### Entrega e apresentação
 
-- [ ] `Representacao.ipynb`: código comentado, análise quantitativa, tabela comparativa, tempo de execução
-- [ ] `Descricao.ipynb`: DataFrame com features, scatter plot, tabela de validação, imagens anotadas
-- [ ] `Introducao_Segmentacao_DL.ipynb`: código simples, imagens de entrada/saída, explicação conceitual
-- [ ] 3 apresentações `.pptx` correspondentes
+- [x] `Representacao.ipynb`: código comentado, análise quantitativa, tabela comparativa, tempo de execução
+- [x] `Descricao.ipynb`: DataFrame com features, scatter plot, tabela de validação, imagens anotadas
+- [x] `Introducao_Segmentacao_DL.ipynb`: código simples, imagens de entrada/saída, explicação conceitual
 
 ## como colaborar?
 
